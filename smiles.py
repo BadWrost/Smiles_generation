@@ -1,6 +1,6 @@
-
 from rdkit import Chem
 from rdkit.Chem import RWMol, SanitizeMol, rdchem
+import selfies as sf
 
 def is_valence_ok(atom_element, existing_bonds, new_bond_order=1):
     max_valences = {'H': 1, 'O': 2, 'C': 4}
@@ -40,15 +40,21 @@ def generate_molecules(max_depth, current_molecule, current_depth=0, molecules=N
     return list(set(molecules))
 
 if __name__ == '__main__':
-    max_depth = 7
+    max_depth = 6
     init_molecule = Chem.RWMol()
     init_molecule.AddAtom(Chem.Atom('C'))  # Starting with a carbon atom
     generated_molecules = generate_molecules(max_depth, init_molecule)
     for smiles in generated_molecules:
         print(smiles)
     print(f'Generated {len(generated_molecules)} unique molecules.')
-    file_name = f'smiles_depth_{max_depth}.txt'
+    file_name_smiles = f'smiles_depth_{max_depth}.txt'
+    file_name_selfies = f'selfies_depth_{max_depth}.txt'
 
-    with open(file_name, 'w') as file:
+    with open(file_name_smiles, 'w') as f_smiles:
         for smiles in generated_molecules:
-            file.write(smiles + '\n')
+            f_smiles.write(smiles + '\n')
+
+    selfies_list = smiles_to_selfies(generated_molecules)
+    with open(file_name_selfies, 'w') as f_selfies:
+        for selfies in selfies_list:
+            f_selfies.write(selfies + '\n')
