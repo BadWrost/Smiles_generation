@@ -37,7 +37,7 @@ def generate_molecules(max_depth, current_molecule, current_depth=0, molecules=N
                     if add_atom_and_bond(new_molecule, atom_index, element) is not None:
                         generate_molecules(max_depth, new_molecule, current_depth + 1, molecules)
 
-    return list(set(molecules))  # Élimine les doublons avant de retourner la liste
+    return list(set(molecules))
 
 if __name__ == '__main__':
     max_depth = 7
